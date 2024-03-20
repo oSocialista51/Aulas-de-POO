@@ -2,8 +2,9 @@ package br.unisal.modelagem;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.swing.JFrame;
 import java.util.List;
+
+import javax.swing.JFrame;
 
 import br.unisal.core.Grid;
 
