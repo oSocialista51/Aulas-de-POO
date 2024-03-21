@@ -14,12 +14,12 @@ import javax.swing.JTextField;
 
 /**
  * Exemplo de Gerenciador de Layout
- * @author Fernando Frizoni Neto
+ * @author Heitor Moreira
  * 12/03/2024
  */
 public class frmCadastro extends JFrame implements ActionListener{
 		
-	// 1 - Passo Declaração
+	// 1 - Passo DeclaraÃ§Ã£o
 	JButton btnCadastrar, btnLimpar;
 	JTextField txtNome, txtSenha;
 	JLabel lbNome, lbSenha;
@@ -31,7 +31,7 @@ public class frmCadastro extends JFrame implements ActionListener{
 		setSize(350, 200);
 		setLayout(new BorderLayout());
 		
-		// 2 Passo Construção
+		// 2 Passo ConstruÃ§Ã£o
 		lbNome = new JLabel("Nome");
 		lbSenha = new JLabel("Senha");
 		txtNome = new JTextField(10);
