@@ -4,14 +4,18 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import br.unisal.Modelagem.Produto;
 import br.unisal.Modelagem.Situacao;
 import br.unisal.Modelagem.UnidadeMedida;
 
@@ -22,10 +26,11 @@ public class frmProduto extends JFrame implements ActionListener{
 	JComboBox cbxUnidadeMedida, cbxSituacao;
 	JPanel pnCampos, pnBotoes;
 	JButton btnInclui, btnExclui, btnAltera, btnPesquisa;
+	List<Produto> bdProduto= new ArrayList<Produto>();
 	
 	public frmProduto() {
 		super("Cadastro de Produto");
-		setSize(300, 200);
+		setSize(400, 250);
 		setLayout(new BorderLayout());
 		
 		//2 Passo contruir os objetos
@@ -73,17 +78,77 @@ public class frmProduto extends JFrame implements ActionListener{
 		
 		pnBotoes.add(btnInclui);
 		pnBotoes.add(btnAltera);
-		pnCampos.add(btnExclui);
-		pnCampos.add(btnPesquisa);
+		pnBotoes.add(btnExclui);
+		pnBotoes.add(btnPesquisa);
 		
 		add(pnBotoes, BorderLayout.SOUTH);
+		
+		//4 Passo inclui os elementos no Listener de Ações
+		btnInclui.addActionListener(this);
+		btnAltera.addActionListener(this);
+		btnExclui.addActionListener(this);
+		btnPesquisa.addActionListener(this);
 		
 		setVisible(true);
 	}
 	
 	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == btnInclui) {
+			Produto p = instanciar();
+			if(p != null) {
+				bdProduto.add(p);
+			}
+		}
+		if(e.getSource() == btnAltera) {
+			for(Produto p : bdProduto) {
+				if(p.getCodigo() == p.getCodigo()) {
+					Produto objeto = instanciar();
+					if(objeto != null) {
+						p = objeto;
+					}
+				}
+			}
+		}
+		System.out.println(bdProduto);
+	}
+	
+	private Produto instanciar() {
+		Produto p = new Produto();
+		try {
+			p.setCodigo(Integer.parseInt(txtCodigo.getText()));
+		}catch(NumberFormatException e) {
+			JOptionPane.showInternalMessageDialog(null, "Codigo do Produto Inválido", "Validação", JOptionPane.ERROR_MESSAGE);
+			return null;
+		}
+		p.setDescricao(txtDescricao.getText());
+		p.setUn(UnidadeMedida.values()[cbxUnidadeMedida.getSelectedIndex()]);
+		
+		try {
+			p.setCodigo(Integer.parseInt(txtLargura.getText()));
+		}catch(NumberFormatException e) {
+			JOptionPane.showInternalMessageDialog(null, "Largura do Produto Inválido", "Validação", JOptionPane.ERROR_MESSAGE);
+			return null;
+		}
+		p.setDescricao(txtDescricao.getText());
+		p.setUn(UnidadeMedida.values()[cbxUnidadeMedida.getSelectedIndex()]);
+		
+		try {
+			p.setCodigo(Integer.parseInt(txtComprimento.getText()));
+		}catch(NumberFormatException e) {
+			JOptionPane.showInternalMessageDialog(null, "Comprimento do Produto Inválido", "Validação", JOptionPane.ERROR_MESSAGE);
+		}
+		p.setDescricao(txtDescricao.getText());
+		p.setUn(UnidadeMedida.values()[cbxUnidadeMedida.getSelectedIndex()]);
+		
+		p.setSituacao(Situacao.values()[cbxSituacao.getSelectedIndex()]);
+		p.setLocalizacao(txtLocalizacao.getText());
+		return p;
 		
 	}
 	
+	public static void main(String[] args) {
+		frmProduto frm = new frmProduto();
+		frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
 }
 	
