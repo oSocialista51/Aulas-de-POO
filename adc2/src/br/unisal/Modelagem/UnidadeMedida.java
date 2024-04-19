@@ -2,11 +2,11 @@ package br.unisal.Modelagem;
 
 public enum UnidadeMedida {
 	UN ("UN", "Unidade"),
-	PC ("PC", "PeÃ§a"), 
+	PC ("PC", "Peça"), 
 	MT ("MT", "Metro"), 
 	TON ("TON", "Tonelada"), 
 	CX ("CX", "Caixa"), 
-	DZ ("DZ", "DÃºzia"), 
+	DZ ("DZ", "Dúzia"), 
 	LT ("LT", "Litro"), 
 	RL ("RL", "Rolo");
 

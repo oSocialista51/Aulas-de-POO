@@ -11,12 +11,12 @@ public class Produto {
 	private int codigo;
 	private String descricao;
 	private UnidadeMedida un;
-	private float largura;
-	private float comprimento;
+	private double largura;
+	private double comprimento;
 	private Situacao situacao;
 	private String localizacao;
 	
-	//MÃ©todos
+	//Métodos
 	public int getCodigo() {
 		return codigo;
 	}
@@ -35,17 +35,17 @@ public class Produto {
 	public void setUn(UnidadeMedida un) {
 		this.un = un;
 	}
-	public float getLargura() {
+	public double getLargura() {
 		return largura;
 	}
-	public void setLargura(float largura) {
-		this.largura = largura;
+	public void setLargura(double d) {
+		this.largura = d;
 	}
-	public float getComprimento() {
+	public double getComprimento() {
 		return comprimento;
 	}
-	public void setComprimento(float comprimento) {
-		this.comprimento = comprimento;
+	public void setComprimento(double d) {
+		this.comprimento = d;
 	}
 	public Situacao getSituacao() {
 		return situacao;
@@ -62,6 +62,6 @@ public class Produto {
 	
 	@Override
 	public String toString() {
-		return "CÃ³digo: " + getCodigo() + "Descricao: " + getDescricao() + "UnidadeMedida: " + getUn().getDescricao() + "Largura" + getLargura() + "Comprimento: " + getComprimento() + "SituaÃ§ao: " + getSituacao() + " LocalizaÃ§Ã£o: " + getLocalizacao();
+		return "Código: " + getCodigo() + "Descricao: " + getDescricao() + "UnidadeMedida: " + getUn().getDescricao() + "Largura" + getLargura() + "Comprimento: " + getComprimento() + "Situaçao: " + getSituacao() + " Localização: " + getLocalizacao();
 		}
 }
