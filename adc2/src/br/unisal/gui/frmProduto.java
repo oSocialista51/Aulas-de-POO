@@ -15,9 +15,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import br.unisal.Modelagem.Produto;
-import br.unisal.Modelagem.Situacao;
-import br.unisal.Modelagem.UnidadeMedida;
+import br.unisal.modelagem.Produto;
+import br.unisal.modelagem.Situacao;
+import br.unisal.modelagem.UnidadeMedida;
 
 public class frmProduto extends JFrame implements ActionListener{
     
