@@ -37,12 +37,14 @@ public class frmCliente extends JFrame
 	String status[] = {"Ativo", "Inativo"};
 	String pessoa[] = {"Pessoa Física", "Pessoa Jurídica"};
 	String estados[] = {"AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"};
+	String EMAIL_REGEX_PATTERN = 
+    "^(?=.{1,64}@)((?:[A-Za-z0-9!#\\$%&'\\*\\+\\-/=?\\^_`{|}~]+|\"(?:\\\\\"|\\\\|[A-Za-z0-9\\.!#\\$%&'\\*\\+\\-/=?\\^_`{|}~ \\(\\),:;<>@\\[\\].)+\")(?:\\.(?:[A-Za-z0-9!#\\$%&'\\*\\+\\-/=?\\^_`{|}~]+|\"(?:\\\\\"|\\\\|[A-Za-z0-9\\.!#\\$%&'\\*\\+\\-/=?\\^_`{|}~ \\(\\),:;<>@\\[\\].)+\")*)@(?=.{1,255}\\.)((?:[A-Za-z0-9]+(?:(?:[A-Za-z0-9\\-]*[A-Za-z0-9])?)\\.)+[A-Za-z]{2,})|(((0|[1-9A-Fa-f][0-9A-Fa-f]{0,3}):){0,6}(0|)])$";
 	JButton btCadastrar, btLimpar, btSair, btConsultar;
 	JPanel pnCampos, pnBotoes;
 	BorderLayout layout;
 	GridLayout gridCampos, gridBotoes;
 	File arquivo = new File("Clientes.txt");
-
+	
 	public frmCliente() {
 		setTitle("Cadastro de Clientes");
 		setLayout(layout = new BorderLayout());
@@ -73,8 +75,7 @@ public class frmCliente extends JFrame
 			mascaraCNPJ = new MaskFormatter("##.###.###/####-##");
             	mascaraTelefone = new MaskFormatter("(##)#####-####");
             	mascaraDataCadastro = new MaskFormatter("##/##/####");
-            	mascaraEmail = new MaskFormatter(regex);
-            	regex = ^(?=.{1,64}@)((?:[A-Za-z0-9!#\$%&'\*\+\-/=\?\^_`\{\|\}~]+|"(?:\\"|\\\\|[A-Za-z0-9\.!#\$%&'\*\+\-/=\?\^_`\{\|\}~ \(\),:;<>@\[\]\.])+")(?:\.(?:[A-Za-z0-9!#\$%&'\*\+\-/=\?\^_`\{\|\}~]+|"(?:\\"|\\\\|[A-Za-z0-9\.!#\$%&'\*\+\-/=\?\^_`\{\|\}~ \(\),:;<>@\[\]\.])+"))*)@(?=.{1,255}\.)((?:[A-Za-z0-9]+(?:(?:[A-Za-z0-9\-]*[A-Za-z0-9])?)\.)+[A-Za-z]{2,})|(((0|[1-9A-Fa-f][0-9A-Fa-f]{0,3}):){0,6}(0|)])$
+			mascaraEmail = new MaskFormatter(EMAIL_REGEX_PATTERN);
 
             	
         	} 	catch (ParseException e) {
