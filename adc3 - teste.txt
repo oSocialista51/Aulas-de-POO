@@ -11,8 +11,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -22,73 +23,64 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 
 public class frmCliente extends JFrame
 				implements ActionListener{
 	
-	//1 Passo - Declaraçãoo dos Objetos
-	JLabel lbNome, lbCNPJ, lbTelefone, lbStatus, lbEmail, lbPessoa, lbDataCadastro, lbFaturamento, lbEstado;
-	JTextField txtNome, txtStatus, txtEmail, txtPessoa;
-	JFormattedTextField txtCNPJ, txtTelefone, txtFaturamento, txtEstado, txtDataCadastro;
-	JComboBox <String> cbxStatus, cbxPessoa, cbxEstado;
-	MaskFormatter mascaraCNPJ, mascaraTelefone, mascaraEmail, mascaraDataCadastro, mascaraFaturamento;
-	String status[] = {"Ativo", "Inativo"};
-	String pessoa[] = {"Pessoa Física", "Pessoa Jurídica"};
-	String estados[] = {"AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"};
-	String EMAIL_REGEX_PATTERN = 
-    "^(?=.{1,64}@)((?:[A-Za-z0-9!#\\$%&'\\*\\+\\-/=?\\^_`{|}~]+|\"(?:\\\\\"|\\\\|[A-Za-z0-9\\.!#\\$%&'\\*\\+\\-/=?\\^_`{|}~ \\(\\),:;<>@\\[\\].)+\")(?:\\.(?:[A-Za-z0-9!#\\$%&'\\*\\+\\-/=?\\^_`{|}~]+|\"(?:\\\\\"|\\\\|[A-Za-z0-9\\.!#\\$%&'\\*\\+\\-/=?\\^_`{|}~ \\(\\),:;<>@\\[\\].)+\")*)@(?=.{1,255}\\.)((?:[A-Za-z0-9]+(?:(?:[A-Za-z0-9\\-]*[A-Za-z0-9])?)\\.)+[A-Za-z]{2,})|(((0|[1-9A-Fa-f][0-9A-Fa-f]{0,3}):){0,6}(0|)])$";
+	//1 Passo - Declaração dos Objetos
+	JLabel lbNome, lbCNPJ, lbTelefone, lbStatus, lbEmail, lbPessoa, lbDataCadastro;
+	JTextField txtNome, txtEmail;
+	JFormattedTextField txtCNPJ, txtTelefone, txtDataCadastro;
+	JComboBox <String> cbxStatus, cbxPessoa;
+	MaskFormatter mascaraCNPJ, mascaraTelefone, mascaraDataCadastro;
+	String status[] = {"Ativo", "Inativo"}, pessoa[] = {"Pessoa Física", "Pessoa Jurídica"};
 	JButton btCadastrar, btLimpar, btSair, btConsultar;
 	JPanel pnCampos, pnBotoes;
 	BorderLayout layout;
 	GridLayout gridCampos, gridBotoes;
 	File arquivo = new File("Clientes.txt");
-	
+
 	public frmCliente() {
 		setTitle("Cadastro de Clientes");
 		setLayout(layout = new BorderLayout());
-		setSize(400, 320);
+		setSize(400, 300);
 		setLocation(50, 50); //posição em que exibe
 		
 		//2 Passo Instanciação dos Objetos
 		pnCampos = new JPanel();
 		pnBotoes = new JPanel();
-		gridCampos = new GridLayout(9,2);
+		gridCampos = new GridLayout(7,2);
 		gridBotoes = new GridLayout(1,4);
-		
 		
 		lbNome = new JLabel("Razão Social ");
 		lbCNPJ = new JLabel("CNPJ ");
 		lbTelefone = new JLabel("Telefone ");
 		lbStatus = new JLabel("Status ");
-		lbEmail = new JLabel("Email ");
-        	lbPessoa = new JLabel("Pessoa ");
-        	lbDataCadastro = new JLabel("Data de Cadastro ");
-        	lbFaturamento = new JLabel("Faturamento ");
-        	lbEstado = new JLabel("Estado ");
-	
-		txtNome = new JTextField(20);
-		txtEmail = new JTextField(20);       
+		lbEmail = new JLabel("E-mail:" );
+		lbPessoa = new JLabel("Pessoa ");
+		lbDataCadastro = new JLabel("Data de Cadastro ");
 		
+		LocalDate dataAgora = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MM yyyy", new Locale("pt", "BR"));
+        String dataFormatada = dataAgora.format(formatter);
+        
+		txtNome = new JTextField(20);
 		try {
 			mascaraCNPJ = new MaskFormatter("##.###.###/####-##");
-            	mascaraTelefone = new MaskFormatter("(##)#####-####");
-            	mascaraDataCadastro = new MaskFormatter("##/##/####");
-			mascaraEmail = new MaskFormatter(EMAIL_REGEX_PATTERN);
-
-            	
-        	} 	catch (ParseException e) {
-            	System.err.println("Falha na Máscara.");
-        	}
+			mascaraTelefone = new MaskFormatter("(##)#####-####");
+			mascaraDataCadastro = new MaskFormatter("##/##/####");
+		}catch(ParseException e) {
+			System.err.println("Falha na Máscara.");
+		}
 		
 		txtCNPJ = new JFormattedTextField(mascaraCNPJ);
 		txtTelefone = new JFormattedTextField(mascaraTelefone);
+		txtEmail = new JTextField();
 		txtDataCadastro = new JFormattedTextField(mascaraDataCadastro);
 		
 		cbxStatus = new JComboBox<String>(status);
 		cbxPessoa = new JComboBox<String>(pessoa);
-        cbxEstado = new JComboBox<String>(estados);
 		
 		btCadastrar = new JButton("Cadastrar");
 		btCadastrar.setMnemonic('C');
@@ -124,15 +116,10 @@ public class frmCliente extends JFrame
 		pnCampos.add(cbxStatus);
 		pnCampos.add(lbEmail);
 		pnCampos.add(txtEmail);
-        pnCampos.add(lbPessoa);
-        pnCampos.add(cbxPessoa);
-        pnCampos.add(lbDataCadastro);
-        pnCampos.add(txtDataCadastro);
-        pnCampos.add(lbFaturamento);
-        pnCampos.add(txtFaturamento);
-        pnCampos.add(lbEstado);
-        pnCampos.add(cbxEstado);
-		
+		pnCampos.add(lbPessoa);
+		pnCampos.add(cbxPessoa);
+		pnCampos.add(lbDataCadastro);
+		pnCampos.add(txtDataCadastro);
 		add(pnCampos, BorderLayout.NORTH);
 		
 		pnBotoes.add(btCadastrar);
@@ -196,18 +183,15 @@ public class frmCliente extends JFrame
 	}
 	
 	public void setLimpar() {
-        
 		txtNome.setText("");
-        txtCNPJ.setText("");
-        txtTelefone.setText("");
-        cbxStatus.setSelectedIndex(0);
-        txtEmail.setText("");
-        cbxPessoa.setSelectedIndex(0);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        txtDataCadastro.setText(sdf.format(new Date()));
-        txtFaturamento.setText("");
-        cbxEstado.setSelectedIndex(0);
-        txtNome.requestFocus();
+		txtCNPJ.setText("");
+		txtTelefone.setText("");
+		cbxStatus.setSelectedIndex(0);
+		txtEmail.setText("");
+		cbxPessoa.setSelectedIndex(0);
+		txtDataCadastro.setText("");
+		txtNome.requestFocus();
+	
 	}
 	public static void main(String[] args) {
 		frmCliente frm = new frmCliente();
